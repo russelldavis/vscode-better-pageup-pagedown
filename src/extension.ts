@@ -1,26 +1,35 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+async function executeCommand(name: string): Promise<void> {
+	const success = await vscode.commands.executeCommand(name);
+	// if (!success) {throw new Error(`Command "${name}" failed`);}
+}
+
+const COMMANDS = [
+	async function betterPageUp() {
+		await executeCommand('scrollPageUp');
+		await executeCommand('cursorPageUp');
+	},
+	async function betterPageUpSelect() {
+		await executeCommand('scrollPageUp');
+		await executeCommand('cursorPageUpSelect');
+	},
+	async function betterPageDown() {
+		await executeCommand('scrollPageDown');
+		await executeCommand('cursorPageDown');
+	},
+	async function betterPageDownSelect() {
+		await executeCommand('scrollPageDown');
+		await executeCommand('cursorPageDownSelect');
+	},
+] as const;
+
+
 export function activate(context: vscode.ExtensionContext) {
-
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "smart-page-up-page-down" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
-
-	context.subscriptions.push(disposable);
+	for (const cmd of COMMANDS) {
+		let disposable = vscode.commands.registerCommand(cmd.name, cmd);
+		context.subscriptions.push(disposable);
+	}
 }
 
 // this method is called when your extension is deactivated

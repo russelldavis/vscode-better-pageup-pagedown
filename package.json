@@ -1,23 +1,34 @@
 {
-	"name": "smart-page-up-page-down",
-	"displayName": "smart-page-up-page-down",
-	"description": "Smart PageUp / PageDown (scrolls to maintain cursor position relative to viewport)",
+	"name": "better-pageup-pagedown",
+	"displayName": "Better PageUp / PageDown",
+	"description": "Makes PageUp/PageDown scroll to maintain cursor position relative to the viewport (like in Sublime Text, JetBrains IDEs, and others)",
+	"keywords": ["scroll", "cursor", "page-up", "page-down"],
 	"version": "0.0.1",
-	"engines": {
-		"vscode": "^1.36.0"
-	},
-	"categories": [
-		"Other"
-	],
+	"publisher": "russelldavis",
+	"engines": {"vscode": "^1.36.0"},
+	"categories": ["Keymaps", "Other"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/russelldavis/vscode-better-pageup-pagedown.git"
+  },
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:betterPageUp",
+		"onCommand:betterPageUpSelect",
+		"onCommand:betterPageDown",
+		"onCommand:betterPageDownSelect"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"commands": [{
-			"command": "extension.helloWorld",
-			"title": "Hello World"
-		}]
+		"keybindings": [
+			{ "key": "pagedown", "command": "-cursorPageDown", "when": "textInputFocus" },
+			{ "key": "pagedown", "command": "betterPageDown", "when": "textInputFocus" },
+			{ "key": "shift+pagedown", "command": "-cursorPageDownSelect", "when": "textInputFocus" },
+			{ "key": "shift+pagedown", "command": "betterPageDownSelect", "when": "textInputFocus" },
+			{ "key": "pageup", "command": "-cursorPageUp", "when": "textInputFocus" },
+			{ "key": "pageup", "command": "betterPageUp", "when": "textInputFocus" },
+			{ "key": "shift+pageup", "command": "-cursorPageUpSelect", "when": "textInputFocus" },
+			{ "key": "shift+pageup", "command": "betterPageUpSelect", "when": "textInputFocus" }
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "yarn run compile",
@@ -27,14 +38,23 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
+		"@babel/cli": "^7.5.5",
+		"@babel/core": "^7.5.5",
+		"@babel/plugin-proposal-class-properties": "^7.5.5",
+		"@babel/plugin-proposal-numeric-separator": "^7.2.0",
+		"@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+		"@babel/plugin-transform-modules-amd": "^7.5.0",
+		"@babel/preset-env": "^7.5.5",
+		"@babel/preset-typescript": "^7.3.3",
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^10.12.21",
 		"@types/vscode": "^1.36.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
-		"typescript": "^3.3.1",
 		"tslint": "^5.12.1",
+		"typescript": "^3.3.1",
+		"vscode": "^1.1.35",
 		"vscode-test": "^1.0.0-next.0"
 	}
 }
